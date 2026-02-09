@@ -1,5 +1,19 @@
 [
   {
+    "id": "b7c857fa-75c5-4176-93f6-7992dd2eb73a",
+    "timestamp": "2026-02-09T14:31:25.427730",
+    "request_type": "image",
+    "request_summary": "Изображение: Zerocoder_PEm08_test_image.jpg",
+    "response_summary": "Сайт Zerocoder представляет собой образовательную платформу с фокусом на мультимодальные приложения и продвинутые технологии. Интерфейс имеет темный фон с яркими элементами и текстами. Содержит тексто"
+  },
+  {
+    "id": "ad6f2f7f-9b4f-4871-a069-4ec46d83f245",
+    "timestamp": "2026-02-09T14:20:59.422119",
+    "request_type": "parse",
+    "request_summary": "URL: https://psnprofiles.com/scalar_syllable9",
+    "response_summary": "Сайт psnprofiles.com предоставляет пользователям удобный и красивый интерфейс для отслеживания их тр"
+  },
+  {
     "id": "f168066d-21bb-45d7-beed-be63ba35b31d",
     "timestamp": "2025-12-05T11:50:01.282016",
     "request_type": "parse",

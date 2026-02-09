@@ -1,5 +1,9 @@
 """
-Скрипт сборки .exe файла для Windows
+Скрипт сборки desktop-приложения (PyInstaller)
+
+Поддерживаемые платформы:
+- Windows: сборка .exe
+- macOS: сборка .app
 """
 import os
 import sys
@@ -9,7 +13,7 @@ from pathlib import Path
 
 
 def build_exe():
-    """Собрать .exe файл"""
+    """Собрать desktop-приложение"""
     print("=" * 60)
     print("🔨 СБОРКА DESKTOP ПРИЛОЖЕНИЯ")
     print("=" * 60)
@@ -64,20 +68,32 @@ def build_exe():
     result = subprocess.run(pyinstaller_args, cwd=current_dir)
     
     if result.returncode == 0:
-        exe_path = current_dir / "dist" / f"{app_name}.exe"
+        # Определяем путь к итоговому файлу в зависимости от ОС
+        if sys.platform.startswith("win"):
+            artifact_path = current_dir / "dist" / f"{app_name}.exe"
+        elif sys.platform == "darwin":
+            # На macOS PyInstaller создаёт .app-бандл
+            artifact_path = current_dir / "dist" / f"{app_name}.app"
+        else:
+            # На Linux обычно создаётся исполняемый файл без расширения
+            artifact_path = current_dir / "dist" / app_name
         
-        if exe_path.exists():
-            size_mb = exe_path.stat().st_size / (1024 * 1024)
+        if artifact_path.exists():
             print("\n" + "=" * 60)
             print("✅ СБОРКА ЗАВЕРШЕНА УСПЕШНО!")
             print("=" * 60)
-            print(f"\n📁 Файл: {exe_path}")
-            print(f"📊 Размер: {size_mb:.1f} MB")
+            print(f"\n📁 Файл: {artifact_path}")
             print("\n💡 Для запуска:")
-            print(f"   1. Запустите backend: python run.py")
-            print(f"   2. Запустите {app_name}.exe")
+            print("   1. В корне проекта запустите backend: python run.py")
+            if sys.platform == "darwin":
+                print(f"   2. Откройте {app_name}.app (в папке dist)")
+            elif sys.platform.startswith("win"):
+                print(f"   2. Запустите {app_name}.exe (в папке dist)")
+            else:
+                print(f"   2. Запустите файл {artifact_path.name} (в папке dist)")
         else:
-            print("\n❌ Ошибка: .exe файл не найден")
+            print("\n❌ Ошибка: файл сборки не найден (ожидался путь:")
+            print(f"   {artifact_path})")
     else:
         print("\n❌ Ошибка сборки")
         sys.exit(1)

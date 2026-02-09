@@ -1,6 +1,5 @@
 """
-Сервис для работы с ProxyAPI (OpenAI-совместимый API)
-https://proxyapi.ru/docs/openai-text-generation
+Сервис для работы с OpenAI API
 """
 import base64
 import json
@@ -19,20 +18,20 @@ logger = logging.getLogger("competitor_monitor.openai")
 
 
 class OpenAIService:
-    """Сервис для анализа через ProxyAPI"""
+    """Сервис для анализа через OpenAI"""
     
     def __init__(self):
         logger.info("=" * 50)
         logger.info("Инициализация OpenAI сервиса")
-        logger.info(f"  Base URL: {settings.proxy_api_base_url}")
         logger.info(f"  Модель текста: {settings.openai_model}")
         logger.info(f"  Модель vision: {settings.openai_vision_model}")
-        logger.info(f"  API ключ: {'*' * 10}...{settings.proxy_api_key[-4:] if settings.proxy_api_key else 'НЕ ЗАДАН'}")
+        logger.info(
+            f"  API ключ: {'*' * 10}..."
+            f"{settings.openai_api_key[-4:] if settings.openai_api_key else 'НЕ ЗАДАН'}"
+        )
         
-        # ProxyAPI - OpenAI-совместимый API для России
         self.client = OpenAI(
-            api_key=settings.proxy_api_key,
-            base_url=settings.proxy_api_base_url
+            api_key=settings.openai_api_key,
         )
         self.model = settings.openai_model
         self.vision_model = settings.openai_vision_model
@@ -147,11 +146,14 @@ class OpenAIService:
     "marketing_insights": ["инсайт 1", "инсайт 2", ...],
     "visual_style_score": 7,
     "visual_style_analysis": "Анализ визуального стиля конкурента",
+    "design_score": 7,
+    "design_analysis": "Анализ дизайна конкурента",
     "recommendations": ["рекомендация 1", "рекомендация 2", ...]
 }
 
 Важно:
 - visual_style_score от 0 до 10
+- design_score от 0 до 10
 - Каждый массив должен содержать 3-5 пунктов
 - Пиши на русском языке
 - Оценивай: цветовую палитру, типографику, композицию, UX/UI элементы"""
